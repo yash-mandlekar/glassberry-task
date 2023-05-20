@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import AllProducts from "./Components/AllProducts/AllProducts";
+import SingleProduct from "./Components/SingleProduct/SingleProduct";
+import Navbar from "./Components/Navbar/Navbar";
+import UploadProduct from "./Components/UploadProduct/UploadProduct";
+import EditProduct from "./Components/EditProduct/EditProduct";
+const App = () => {
 
-function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Navbar />}>
+        <Route path="/" element={<AllProducts />} />
+        <Route path="upload" element={<UploadProduct />} />
+        <Route path="product/:id" element={<SingleProduct />} />
+        <Route path="product/edit/:id" element={<EditProduct />} />
+      </Route>
+      <Route path="/*" element={<>not found</>} />
+    </Routes>
   );
-}
+};
 
 export default App;
