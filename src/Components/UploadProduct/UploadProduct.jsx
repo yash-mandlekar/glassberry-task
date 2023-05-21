@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./UploadProduct.css";
 import MyDropzone from "../DropZone/DropZone";
 import axios from "../Axios/Axios";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 const UploadProduct = () => {
   var categories = {
     Mobile: [
@@ -69,11 +72,11 @@ const UploadProduct = () => {
     product_brand: "",
     product_publish_date: "",
   });
+  const [product_description, setproduct_description] = useState("");
   const [subcategories, setsubcategories] = useState([]);
   const {
     product_name,
     product_features,
-    product_description,
     product_category,
     product_subcategory,
     product_brand,
@@ -132,6 +135,7 @@ const UploadProduct = () => {
           product_brand: "",
           product_publish_date: "",
         });
+        setproduct_description("");
         setfile([null, null, null]);
       }
     } catch (err) {
@@ -164,14 +168,16 @@ const UploadProduct = () => {
           />
         </div>
         <div className="form-group">
-          <input
-            placeholder="Product Description"
-            type="text"
-            name="product_description"
-            id="product_description"
-            onChange={hanldleOnchange}
-            value={product_description}
-            required
+          <CKEditor
+            editor={ClassicEditor}
+            data={product_description}
+            onReady={(editor) => {
+              console.log("Editor is ready to use!", editor);
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setproduct_description(data);
+            }}
           />
         </div>
         <div className="form-group">

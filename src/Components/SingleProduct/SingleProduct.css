@@ -21,11 +21,13 @@ body {
 .product-images {
   text-align: center;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .product-image {
   max-width: 35vmax;
   height: auto;
+  width: 100%;
 }
 
 .section-title {
@@ -58,6 +60,7 @@ body {
   border: 1px solid blue;
 }
 .product-right {
+  width: 50%;
   display: flex;
   gap: 1vmax;
 }

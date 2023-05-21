@@ -33,8 +33,7 @@ const SingleProduct = () => {
             <p className="product-features">{product?.product_features}</p>
 
             <h3 className="section-title">Product Description</h3>
-            <div className="product-description">
-              {product?.product_description}
+            <div className="product-description" dangerouslySetInnerHTML={{__html: product?.product_description}}>
             </div>
 
             <h3 className="section-title">Category</h3>

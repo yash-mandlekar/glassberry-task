@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../UploadProduct/UploadProduct.css";
-import MyDropzone from "../DropZone/DropZone";
 import axios from "../Axios/Axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -67,17 +68,16 @@ const EditProduct = () => {
   const [form, setform] = useState({
     product_name: "",
     product_features: "",
-    product_description: "",
     product_category: "",
     product_subcategory: "",
     product_brand: "",
     product_publish_date: "",
   });
+  const [product_description, setproduct_description] = useState("");
   const [subcategories, setsubcategories] = useState([]);
   const {
     product_name,
     product_features,
-    product_description,
     product_category,
     product_subcategory,
     product_brand,
@@ -107,8 +107,10 @@ const EditProduct = () => {
   const fetchProduct = async () => {
     try {
       const { data } = await axios.get(`/products/${id}`);
+      console.log(data);
       setform(data);
       setfile(data.product_images);
+      setproduct_description(data.product_description);
       setsubcategories(categories[data.product_category]);
     } catch (error) {
       console.log(error);
@@ -124,14 +126,14 @@ const EditProduct = () => {
         setform({
           product_name: "",
           product_features: "",
-          product_description: "",
           product_category: "",
           product_subcategory: "",
           product_brand: "",
           product_publish_date: "",
         });
+        setproduct_description("");
         setfile([null, null, null]);
-        navigate("/")
+        navigate("/");
       }
     } catch (err) {
       console.log(err);
@@ -163,14 +165,16 @@ const EditProduct = () => {
           />
         </div>
         <div className="form-group">
-          <input
-            placeholder="Product Description"
-            type="text"
-            name="product_description"
-            id="product_description"
-            onChange={hanldleOnchange}
-            value={product_description}
-            required
+          <CKEditor
+            editor={ClassicEditor}
+            data={product_description}
+            onReady={(editor) => {
+              console.log("Editor is ready to use!", editor);
+            }}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setproduct_description(data);
+            }}
           />
         </div>
         <div className="form-group">

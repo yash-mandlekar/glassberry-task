@@ -1,4 +1,5 @@
 const Product = require("../models/productModel");
+const fs = require("fs");
 exports.getProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -61,6 +62,10 @@ exports.updateProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
   try {
+    const product = await Product.findById(req.params.id);
+    product.product_images.forEach((image) => {
+      fs.unlinkSync(`./public${image}`);
+    });
     await Product.findByIdAndDelete(req.params.id);
     res.json({ message: "Product deleted" });
   } catch (err) {
